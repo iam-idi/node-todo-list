@@ -11,16 +11,34 @@
     <h1>My Todo List</h1>
     <div id="todo-table">
         <form method="post" action="/todo">
-            <input type="text" name="item" placeholder="Add new item..." required>
+            <input type="text" name="task" placeholder="Add new item..." required>
             <button>Add New Item</button>
         </form>
         <ul>
-            <% for(let i = 0; i < todos.length; i++){ %>
-                <li><%=todos[i].item %></li>
-            <% } %>
+            <% for(let i=0; i < todos.length; i++){ %>
+                <li data-doc="<%= todos[i]._id %>">
+                    <%=todos[i].task %>
+                </li>
+                <% } %>
         </ul>
     </div>
-    <script type="text/javascript" src="/assets/todo-list.js"></script>
+    <script>
+        
+        const task = document.querySelector('ul li');
+
+        task.addEventListener('click', (e) => {
+
+            const endpoint = `/todo/${task.dataset.doc}`;
+
+                fetch(endpoint, {
+                    method: 'DELETE'
+                })
+                .then((response) => response.json())
+                .then((data) => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+        })
+
+    </script>
 </body>
 
 </html>

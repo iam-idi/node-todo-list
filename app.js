@@ -1,23 +1,29 @@
 const express = require('express');
-const todoController = require('./controllers/todo.controller');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const todoRoutes = require('./routes/todo.routes');
 
 const app = express();
-const port = 3000;
 
+// mongoDB connection and port listening
+const dbURI = 'mongodb+srv://blogapp:blog123@blogappdb.spncqqr.mongodb.net/todo-listdb?retryWrites=true&w=majority';
+mongoose.connect(dbURI)
+.then((result) => {
+    console.log('DB is connected');
+    app.listen(3000, () => console.log('listening to http://localhost:3000'));
+})
+.catch((err) => console.log(err.message));
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
 // templates engine
 app.set('view engine', 'ejs');
 
 // static files
 app.use(express.static('./public'));
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 
-// fire controllers
-todoController(app);
+// todo routes
 
-// listening to port
-app.listen(port, () =>{
-    console.log(`Listening to http://localhost:${port}`);
-});
+app.use('/todo', todoRoutes);
 
