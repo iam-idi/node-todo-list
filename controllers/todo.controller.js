@@ -23,7 +23,7 @@ const todo_delete = (req, res) => {
     }).catch(err => console.log(err));
   };
 
-modules.exports = {
+module.exports = {
     todo_get,
     todo_post,
     todo_delete

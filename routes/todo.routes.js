@@ -6,6 +6,6 @@ router.get("/", controller.todo_get);
 
 router.post("/", controller.todo_post);
 
-router.delete("/:id", controller.todo.delete);
+router.delete("/:id", controller.todo_delete);
 
 module.exports = router;
