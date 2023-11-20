@@ -1,32 +1,11 @@
 const express = require('express');
-const Todo = require('../models/todo');
 const router = express.Router();
+const controller = require('../controllers/todo.controller');
 
+router.get("/", controller.todo_get);
 
-// let data = [{ item: "Buy Milk" }, { item: "Walk Dog" }, { item: "Write Code" }];
+router.post("/", controller.todo_post);
 
-router.get("/", (req, res) => {
-    Todo.find().sort({createdAt : -1})
-    .then((data) => {
-        res.render("todo", { todos: data });
-    }).catch((err) => console.log(err));
-});
-
-router.post("/", (req, res) => {
-    const todo = new Todo(req.body);
-    todo.save()
-    .then((data) => {
-        res.redirect('/todo');
-    })
-    .catch(err => console.log(err));
-});
-
-router.delete("/:id", (req, res) => {
-
-  Todo.findByIdAndDelete(req.params.id)
-  .then((data) => {
-    res.json({ redirect: '/todo'});
-  }).catch(err => console.log(err));
-});
+router.delete("/:id", controller.todo.delete);
 
 module.exports = router;

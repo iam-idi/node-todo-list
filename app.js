@@ -17,7 +17,7 @@ mongoose.connect(dbURI)
 // templates engine
 app.set('view engine', 'ejs');
 
-// static files
+// static files & middlewares
 app.use(express.static('./public'));
 app.use(morgan('dev'));
 app.use(express.json());
